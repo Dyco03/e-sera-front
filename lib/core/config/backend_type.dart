@@ -1,0 +1,1 @@
+enum BackendType { firebase, api }
