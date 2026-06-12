@@ -178,7 +178,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileStats(
                   postCount: postCount,
                   followerCount: user.followers.length,
-                  followingCount: user.followers.length,
+                  followingCount: user.following.length,
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(

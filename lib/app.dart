@@ -1,5 +1,6 @@
 import 'package:e_sera/core/config/app_config.dart';
 import 'package:e_sera/core/config/repo_factory.dart';
+import 'package:e_sera/features/auth/presentation/pages/noInternet_page.dart';
 import 'package:e_sera/features/home/presentation/pages/home_page.dart';
 import 'package:e_sera/features/auth/presentation/cubits/auth_cubit.dart';
 import 'package:e_sera/features/auth/presentation/cubits/auth_states.dart';
@@ -86,7 +87,9 @@ class MyApp extends StatelessWidget {
           builder: (context, authState) {
             print(authState);
             // authState is a variable; the type remains AuthState
-
+            if (authState is NoInternet) {
+              return NoInternetPage();
+            }
             // -unauthenticated -> auth page (login/register)
             if (authState is Unauthenticated) {
               return const AuthPage();
@@ -98,6 +101,8 @@ class MyApp extends StatelessWidget {
             }
             // loading
             else {
+              print('FFFFFFFFFFFFFFFFFFFFFFFFFFF');
+              print(authState);
               return const Scaffold(
                 body: Center(child: CircularProgressIndicator()), // loading
               );

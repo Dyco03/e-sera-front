@@ -4,6 +4,9 @@ Auth Cubit: State Management
 
 */
 
+import 'dart:io';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:e_sera/features/auth/domain/entities/app_user.dart';
 import 'package:e_sera/features/auth/domain/repos/auth_repo.dart';
 import 'package:e_sera/features/auth/presentation/cubits/auth_states.dart';
@@ -15,12 +18,28 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit({required this.authRepo}) : super(AuthInitial());
 
+  //test connexion
+  Future<bool> hasInternet() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } catch (_) {
+      return false;
+    }
+  }
+
   //check if user is already authenticated
   void checkAuth() async {
+    final connectivity = await Connectivity().checkConnectivity();
+
+    if (connectivity == ConnectivityResult.none) {
+      emit(NoInternet());
+      return;
+    }
+
     final AppUser? user = await authRepo.getCurrentUser();
 
     if (user != null) {
-      _currentUser = user;
       emit(Authenticated(user));
     } else {
       emit(Unauthenticated());

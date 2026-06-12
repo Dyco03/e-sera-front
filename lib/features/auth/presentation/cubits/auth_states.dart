@@ -11,6 +11,9 @@ abstract class AuthState {}
 // initial
 class AuthInitial extends AuthState {}
 
+// no internet
+class NoInternet extends AuthState {}
+
 // loading
 class Authloading extends AuthState {}
 
